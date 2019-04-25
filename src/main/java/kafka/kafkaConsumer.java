@@ -5,6 +5,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -34,22 +35,9 @@ public class kafkaConsumer {
         consumerClient.subscribe(Arrays.asList(topicName));
     }
 
-    public ConsumerRecords<String, String> poll(long timeout){
-        return consumerClient.poll(timeout);
+    public ConsumerRecords<String, String> poll(){
+
+        return consumerClient.poll(Duration.ofSeconds(1000));
     }
 
-    public static void main(String args[]){
-        kafkaConsumer consumer = new kafkaConsumer(
-                "35.232.62.190:9092",
-                "0",
-                "test-topic"
-        );
-        consumer.init();
-        while(true){
-            ConsumerRecords<String, String> records = consumer.poll(100);
-            for(ConsumerRecord<String, String> record: records){
-                System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
-            }
-        }
-    }
 }

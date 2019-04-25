@@ -1,7 +1,6 @@
 package kafka;
 
 import org.apache.kafka.clients.producer.*;
-import pipeline.Config;
 
 import java.util.Scanner;
 import java.util.Properties;
@@ -54,24 +53,6 @@ public class kafkaProducer {
         };
         producerClient.send(producerRecord, sendComplete);
         this.msgID++;
-    }
-
-    public static void main(String[] args) {
-        Config config = new Config();
-        Scanner sc = new Scanner(System.in);
-        kafkaProducer producer = new kafkaProducer(
-                config.getKafka_server(),
-                config.getKafka_topic()
-        );
-        producer.init();
-        while (true){
-            String input = sc.nextLine();
-            if(input == "0"){
-                break;
-            }
-            System.out.println(input);
-            producer.send(input);
-        }
     }
 }
 

@@ -4,6 +4,15 @@ COPY pom.xml /usr/src/app
 RUN mvn -f /usr/src/app/pom.xml clean package
 
 FROM openjdk:11  
-COPY --from=build /usr/src/app/target/ccproject-1.0-SNAPSHOT.jar /usr/app/ccproject-1.0-SNAPSHOT.jar  
-EXPOSE 5600  
-ENTRYPOINT ["java","-jar","/usr/app/ccproject-1.0-SNAPSHOT.jar"]  
+COPY --from=build /usr/src/app/target/ccproject-deploy.jar /usr/app/ccproject-deploy.jar
+
+ENV mode "default"
+ENV json-port "default"
+ENV kafka-server "default"
+ENV kafka-topic "default"
+
+ENTRYPOINT ["java","-jar","/usr/app/ccproject-deploy.jar", \
+            "--mode", ${mode}, \
+            "--json-port", ${json-port}, \
+            "--kafka-server", ${kafka-server}, \
+            "--kafka-topic", ${kafka-topic}]
