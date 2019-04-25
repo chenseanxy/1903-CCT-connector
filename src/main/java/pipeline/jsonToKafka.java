@@ -1,6 +1,7 @@
 package pipeline;
 
 import kafka.kafkaProducer;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,10 +9,19 @@ import java.util.Properties;
 
 
 public class jsonToKafka {
+    private static ServerSocket serverSocket;
+    private static kafkaProducer producer;
 
-    public static void jsonToKafka(Properties props){
 
-        kafkaProducer producer = new kafkaProducer(
+    public static void run(Properties props){
+
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+           public void run(){
+               jsonToKafka.cleanup();
+           }
+        });
+
+        producer = new kafkaProducer(
                 props.getProperty("kafka-server"), props.getProperty("kafka-topic"));
         producer.init();
 
@@ -23,7 +33,7 @@ public class jsonToKafka {
         int jsonPort = Integer.parseInt(props.getProperty("json-port"));
 
         try {
-            ServerSocket serverSocket=new ServerSocket(jsonPort);
+            serverSocket = new ServerSocket(jsonPort);
             while(true){
                 try{
                     clientSocket=serverSocket.accept();
@@ -46,6 +56,15 @@ public class jsonToKafka {
             e.printStackTrace();
         }
 
+    }
+
+    public static void cleanup(){
+        try{
+            serverSocket.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
         producer.close();
     }
 

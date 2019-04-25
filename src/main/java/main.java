@@ -34,7 +34,7 @@ public class main {
                 props.put("json-port", cmd.getOptionValue("jp"));
                 props.put("kafka-server", cmd.getOptionValue("ks"));
                 props.put("kafka-topic", cmd.getOptionValue("kt"));
-                jsonToKafka.jsonToKafka(props);
+                jsonToKafka.run(props);
             }
             else{
                 System.out.println("Arguments are not complete for mode json-kafka:");
