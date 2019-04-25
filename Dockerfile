@@ -7,9 +7,9 @@ FROM openjdk:11
 COPY --from=build /usr/src/app/target/ccproject-deploy.jar /usr/app/ccproject-deploy.jar
 
 ENV mode "default"
-ENV json-port "default"
-ENV kafka-server "default"
-ENV kafka-topic "default"
+ENV json_port "default"
+ENV kafka_server "default"
+ENV kafka_topic "default"
 
 ENTRYPOINT ["java","-jar","/usr/app/ccproject-deploy.jar", \
             "--mode", ${mode}, \
