@@ -4,11 +4,13 @@ COPY pom.xml /usr/src/app
 RUN mvn -f /usr/src/app/pom.xml clean package
 
 FROM openjdk:11-jre-slim  
-COPY --from=build /usr/src/app/target/ccproject-deploy.jar /usr/app/ccproject-deploy.jar
+COPY --from=build /usr/src/app/target/ccproject-1.0-SNAPSHOT.jar /usr/app/ccproject-1.0-SNAPSHOT.jar
 
 ENV mode "default"
-ENV json_port "default"
-ENV kafka_server "default"
-ENV kafka_topic "default"
+ENV json_port "5600"
+ENV kafka_server "kfk-cp-kafka-headless:9092"
+ENV kafka_topic "main"
+
+EXPOSE ${json_port}
 
 ENTRYPOINT ["java","-jar","/usr/app/ccproject-deploy.jar", "--mode", ${mode}, "--json-port", ${json-port}, "--kafka-server", ${kafka-server}, "--kafka-topic", ${kafka-topic}]
