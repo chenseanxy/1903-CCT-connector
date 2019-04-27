@@ -6,6 +6,7 @@ import java.util.Properties;
 
 public class main {
     public static void main(String[] args) {
+
         Options options = new Options();
         options.addRequiredOption("m","mode",true,"Specify the mode of operation");
         options.addOption("jp","json-port", true, "Specify listening port for json server");
@@ -27,18 +28,11 @@ public class main {
         Properties props = new Properties();
 
         System.out.println("Mode: \"" + cmd.getOptionValue("m") + "\"");
-        if(cmd.getOptionValue("m") == "json-kafka"){
-            if(cmd.hasOption("jp") && cmd.hasOption("ks") && cmd.hasOption("kt")
-                    && cmd.getOptionValue("jp") != "default"
-                    && cmd.getOptionValue("ks") != "default"
-                    && cmd.getOptionValue("kt") != "default"
-            ){
+        if(cmd.getOptionValue("m").equals("json-kafka")){
+            if(cmd.hasOption("jp") && cmd.hasOption("ks") && cmd.hasOption("kt")){
                 props.put("json-port", cmd.getOptionValue("jp"));
                 props.put("kafka-server", cmd.getOptionValue("ks"));
                 props.put("kafka-topic", cmd.getOptionValue("kt"));
-                System.out.println("json-port "+"'" + cmd.getOptionValue("jp")+"'");
-                System.out.println("kafka-server "+"'"+ cmd.getOptionValue("ks")+"'");
-                System.out.println("kafka-topic "+"'"+ cmd.getOptionValue("kt")+"'");
                 jsonToKafka.run(props);
             }
             else{
@@ -48,6 +42,8 @@ public class main {
                 return;
             }
         }
-        
+        else {
+            System.out.println();
+        }
     }
 }
