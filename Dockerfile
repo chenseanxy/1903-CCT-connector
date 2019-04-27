@@ -11,8 +11,4 @@ ENV json_port "default"
 ENV kafka_server "default"
 ENV kafka_topic "default"
 
-ENTRYPOINT ["java","-jar","/usr/app/ccproject-deploy.jar", \
-            "--mode", ${mode}, \
-            "--json-port", ${json-port}, \
-            "--kafka-server", ${kafka-server}, \
-            "--kafka-topic", ${kafka-topic}]
+ENTRYPOINT ["java","-jar","/usr/app/ccproject-deploy.jar", "--mode", ${mode}, "--json-port", ${json-port}, "--kafka-server", ${kafka-server}, "--kafka-topic", ${kafka-topic}]
