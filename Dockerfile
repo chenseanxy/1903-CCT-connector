@@ -13,4 +13,5 @@ ENV kafka_topic "main"
 
 EXPOSE ${json_port}
 
-ENTRYPOINT ["java","-jar","/ccproject.jar", "--mode", "${mode}"]
+#ENTRYPOINT ["java","-jar","/ccproject.jar", "--mode", "${mode}"]
+ENTRYPOINT [ "/bin/bash" ]

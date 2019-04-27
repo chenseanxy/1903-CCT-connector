@@ -18,6 +18,7 @@ public class main {
             cmd = parser.parse(options, args);
         }
         catch (ParseException e){
+            System.out.println("Failed to parse input arguments");
             System.out.println(e.getMessage());
             System.exit(1);
             return;
@@ -25,6 +26,7 @@ public class main {
 
         Properties props = new Properties();
 
+        System.out.println("Mode: " + cmd.getOptionValue("m"));
         if(cmd.getOptionValue("m") == "json-kafka"){
             if(cmd.hasOption("jp") && cmd.hasOption("ks") && cmd.hasOption("kt")
                     && cmd.getOptionValue("jp") != "default"
@@ -34,6 +36,9 @@ public class main {
                 props.put("json-port", cmd.getOptionValue("jp"));
                 props.put("kafka-server", cmd.getOptionValue("ks"));
                 props.put("kafka-topic", cmd.getOptionValue("kt"));
+                System.out.println("json-port " + cmd.getOptionValue("jp"));
+                System.out.println("kafka-server "+ cmd.getOptionValue("ks"));
+                System.out.println("kafka-topic "+ cmd.getOptionValue("kt"));
                 jsonToKafka.run(props);
             }
             else{
@@ -43,5 +48,6 @@ public class main {
                 return;
             }
         }
+        
     }
 }
