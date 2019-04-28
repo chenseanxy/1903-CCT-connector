@@ -1,6 +1,6 @@
 import org.apache.commons.cli.*;
 
-import pipeline.jsonToKafka;
+import pipeline.*;
 
 import java.util.Properties;
 
@@ -21,10 +21,14 @@ public class main {
         // kafka
         options.addOption("ks", "kafka-server", true, "Specify kafka server");
         options.addOption("kt", "kafka-topic", true, "Specify kafka topic to use");
+        options.addOption("ktf","kafka-topic-filtered", true, "Specify the filtered topic name");
+        options.addOption("kaid","kafka-appid", true, "AppID for Kafka Stream");
+        options.addOption("kcid","kafka-clientid",true, "clientID for Kafka Stream and Consumer");
+
 
         // redis
         // hadoop
-        
+
         // Options Parsing phase
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
@@ -68,7 +72,22 @@ public class main {
                 System.exit(1);
                 return;
             }
-        } 
+        }
+        // kafka-json
+        else if (mode.equals("kafka-filter")) {
+            if(cmd.hasOption("ks") && cmd.hasOption("kt") && cmd.hasOption("ktf") &&
+                    cmd.hasOption("kaid") && cmd.hasOption("kcid")){
+
+                props.put("kafka-server", cmd.getOptionValue("ks"));
+                props.put("kafka-topic", cmd.getOptionValue("kt"));
+                props.put("kafka-topic-filtered", cmd.getOptionValue("ktf"));
+                props.put("kafka-appid", cmd.getOptionValue("kaid"));
+                props.put("kafka-clientid", cmd.getOptionValue("kcid"));
+
+                kafkaFilter.run(props);
+            }
+        }
+
         // no mode match
         else {
             System.out.println("No matching mode for: '"+ mode +"'");
