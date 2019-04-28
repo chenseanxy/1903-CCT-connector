@@ -8,19 +8,19 @@ public class main {
     public static void main(String[] args) {
 
         Options options = new Options();
-        options.addRequiredOption("m","mode",true,"Specify the mode of operation");
-        options.addOption("jp","json-port", true, "Specify listening port for json server");
-        options.addOption("ks","kafka-server",true,"Specify kafka server");
-        options.addOption("kt","kafka-topic",true, "Specify kafka topic to use");
+        options.addRequiredOption("m", "mode", true, "Specify the mode of operation");
+        options.addOption("jp", "json-port", true, "Specify listening port for json server");
+        options.addOption("ks", "kafka-server", true, "Specify kafka server");
+        options.addOption("kt", "kafka-topic", true, "Specify kafka topic to use");
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
-        try{
+        try {
             cmd = parser.parse(options, args);
-        }
-        catch (ParseException e){
+        } catch (ParseException e) {
             System.out.println("Failed to parse input arguments");
             System.out.println(e.getMessage());
+            pause();
             System.exit(1);
             return;
         }
@@ -28,22 +28,31 @@ public class main {
         Properties props = new Properties();
 
         System.out.println("Mode: \"" + cmd.getOptionValue("m") + "\"");
-        if(cmd.getOptionValue("m").equals("json-kafka")){
-            if(cmd.hasOption("jp") && cmd.hasOption("ks") && cmd.hasOption("kt")){
+        if (cmd.getOptionValue("m").equals("json-kafka")) {
+            if (cmd.hasOption("jp") && cmd.hasOption("ks") && cmd.hasOption("kt")) {
                 props.put("json-port", cmd.getOptionValue("jp"));
                 props.put("kafka-server", cmd.getOptionValue("ks"));
                 props.put("kafka-topic", cmd.getOptionValue("kt"));
                 jsonToKafka.run(props);
-            }
-            else{
+            } else {
                 System.out.println("Arguments are not complete for mode json-kafka:");
                 System.out.println("json-port, kafka-server, kafka-topic must be all present");
+                pause();
                 System.exit(1);
                 return;
             }
-        }
-        else {
+        } else {
             System.out.println();
+            pause();
+        }
+    }
+
+    public static void pause() {
+        System.out.println("Pausing on exit");
+        try {
+            Thread.sleep(1000 * 60);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
