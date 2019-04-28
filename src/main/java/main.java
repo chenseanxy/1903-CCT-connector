@@ -5,14 +5,27 @@ import pipeline.jsonToKafka;
 import java.util.Properties;
 
 public class main {
-    public static void main(String[] args) {
 
+    public static String mode;
+    public static Boolean debug = true;
+
+    public static void main(String[] args) {
+        // Options DEFINITION PHASE
         Options options = new Options();
-        options.addRequiredOption("m", "mode", true, "Specify the mode of operation");
+        options.addRequiredOption("m", "mode", true, "Choose the mode of operation");
+        options.addOption("v","debug", true, "Set debug flag");
+
+        // json
         options.addOption("jp", "json-port", true, "Specify listening port for json server");
+
+        // kafka
         options.addOption("ks", "kafka-server", true, "Specify kafka server");
         options.addOption("kt", "kafka-topic", true, "Specify kafka topic to use");
 
+        // redis
+        // hadoop
+        
+        // Options Parsing phase
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
         try {
@@ -25,14 +38,28 @@ public class main {
             return;
         }
 
+        // Options INTERROGATION PHASE
         Properties props = new Properties();
 
-        System.out.println("Mode: \"" + cmd.getOptionValue("m") + "\"");
-        if (cmd.getOptionValue("m").equals("json-kafka")) {
+        // mode
+        mode = cmd.getOptionValue("m");
+        System.out.println("Mode: \"" + mode + "\"");
+
+        // debug
+        if(cmd.hasOption("v") && cmd.getOptionValue("v").equals("true")){
+            debug = true;
+        } else {
+            debug = false;
+        }
+        System.out.println("Debug: "+debug.toString());
+
+        // json-kafka
+        if (mode.equals("json-kafka")) {
             if (cmd.hasOption("jp") && cmd.hasOption("ks") && cmd.hasOption("kt")) {
                 props.put("json-port", cmd.getOptionValue("jp"));
                 props.put("kafka-server", cmd.getOptionValue("ks"));
                 props.put("kafka-topic", cmd.getOptionValue("kt"));
+                System.out.println(props.toString());
                 jsonToKafka.run(props);
             } else {
                 System.out.println("Arguments are not complete for mode json-kafka:");
@@ -41,14 +68,19 @@ public class main {
                 System.exit(1);
                 return;
             }
-        } else {
-            System.out.println();
+        } 
+        // no mode match
+        else {
+            System.out.println("No matching mode for: '"+ mode +"'");
             pause();
         }
     }
 
     public static void pause() {
-        System.out.println("Pausing on exit");
+        if(debug==false){
+            return;
+        }
+        System.out.println("DEBUG: Pausing on exit");
         try {
             Thread.sleep(1000 * 60);
         } catch (InterruptedException e) {

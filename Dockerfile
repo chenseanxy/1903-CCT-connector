@@ -10,8 +10,8 @@ ENV mode "default"
 ENV json_port "5600"
 ENV kafka_server "kfk-cp-kafka-headless:9092"
 ENV kafka_topic "main"
+ENV debug "false"
 
-EXPOSE ${json_port}
-
-ENTRYPOINT java -jar /ccproject.jar --mode ${mode} --json-port ${json_port} --kafka-server ${kafka_server} --kafka-topic ${kafka_topic}
+ENTRYPOINT ["java", "-jar", "/ccproject.jar"] 
+CMD --mode ${mode} --json-port ${json_port} --kafka-server ${kafka_server} --kafka-topic ${kafka_topic} --debug ${debug}
 # ENTRYPOINT [ "/bin/bash" ]
