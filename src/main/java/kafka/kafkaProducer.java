@@ -32,6 +32,9 @@ public class kafkaProducer {
         prop.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor");
 
         producerClient = new KafkaProducer<String, String>(prop);
+
+        kafkaTopic kTopic = new kafkaTopic(server, topicName);
+        kTopic.makeTopic();
     }
 
     public void close(){

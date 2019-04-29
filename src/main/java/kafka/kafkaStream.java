@@ -36,6 +36,10 @@ public class kafkaStream {
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
         streams = new KafkaStreams(builder.build(), props);
+
+        kafkaTopic kTopicFiltered = new kafkaTopic(server, topic);
+        kTopicFiltered.makeTopic();
+
         streams.cleanUp();
     }
 
