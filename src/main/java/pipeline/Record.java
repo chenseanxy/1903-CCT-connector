@@ -51,7 +51,8 @@ public class Record {
                 System.out.println("INVALID " + json);
                 return false;
             }
-        } catch (JsonSyntaxException e){
+        } catch (Exception e){
+            e.printStackTrace();
             System.out.println("ERROR   " + json);
             return false;
         }
