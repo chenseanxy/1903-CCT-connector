@@ -84,6 +84,7 @@ public class main {
                 props.put("kafka-appid", cmd.getOptionValue("kaid"));
                 props.put("kafka-clientid", cmd.getOptionValue("kcid"));
 
+                System.out.println(props.toString());;
                 kafkaFilter.run(props);
             }
         }
@@ -93,6 +94,8 @@ public class main {
             System.out.println("No matching mode for: '"+ mode +"'");
             pause();
         }
+        System.out.println("End of program");
+        pause();
     }
 
     public static void pause() {

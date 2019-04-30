@@ -30,6 +30,7 @@ public class kafkaTopic {
             return;
         }
         if(!names.contains(topic)){
+            System.out.println("Creating topic "+topic);
             List<NewTopic> newTopics = new ArrayList<>();
             Map<String, String> configs = new HashMap<>();
             int partitions = 5;

@@ -1,6 +1,5 @@
 package pipeline;
 
-
 import kafka.kafkaStream;
 
 import java.util.Properties;
@@ -21,7 +20,9 @@ public class kafkaFilter {
                 "geofilter-stream-client" + props.getProperty("kafka-clientid"),
                 (k, v) -> Record.jsonValid(v)
         );
+        System.out.println("Initializing stream");
         stream.init();
+        System.out.println("Starting stream");
         stream.run();
     }
 
