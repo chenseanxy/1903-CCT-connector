@@ -1,6 +1,7 @@
 package pipeline;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 public class Record {
     private String eid;
@@ -38,6 +39,22 @@ public class Record {
             return false;
         }
         return true;
+    }
+
+    public static Boolean jsonValid(String json){
+        try{
+            Record r = fromJson(json);
+            Boolean valid = r.isValid();
+            if(valid){
+                return true;
+            } else {
+                System.out.println("INVALID " + json);
+                return false;
+            }
+        } catch (JsonSyntaxException e){
+            System.out.println("ERROR   " + json);
+            return false;
+        }
     }
 
     public String getEid() {
