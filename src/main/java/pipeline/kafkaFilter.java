@@ -8,9 +8,11 @@ public class kafkaFilter {
     private static kafkaStream stream;
 
     public static void run(Properties props){
-        Runtime.getRuntime().addShutdownHook(
-                new Thread(stream::stop)
-        );
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+            public void run(){
+                kafkaFilter.cleanup();
+            }
+         });
 
         stream = new kafkaStream(
                 props.getProperty("kafka-server"),
@@ -25,5 +27,8 @@ public class kafkaFilter {
         System.out.println("Starting stream");
         stream.run();
     }
-
+    
+    public static void cleanup(){
+        stream.stop();
+    }
 }
