@@ -87,6 +87,10 @@ public class main {
                 System.out.println(props.toString());;
                 kafkaFilter.run(props);
             }
+            else{
+                System.out.println("Arguments not complete:");
+                System.out.println(cmd.toString());
+            }
         }
 
         // no mode match

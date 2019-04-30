@@ -16,8 +16,8 @@ public class kafkaFilter {
                 props.getProperty("kafka-server"),
                 props.getProperty("kafka-topic"),
                 props.getProperty("kafka-topic-filtered"),
-                "geofilter-stream" + props.getProperty("kafka-appid"),
-                "geofilter-stream-client" + props.getProperty("kafka-clientid"),
+                "geofilter-stream-" + props.getProperty("kafka-appid"),
+                "geofilter-stream-client-" + props.getProperty("kafka-clientid"),
                 (k, v) -> Record.jsonValid(v)
         );
         System.out.println("Initializing stream");
