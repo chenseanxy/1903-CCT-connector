@@ -23,35 +23,34 @@ public class Record {
         this.latitude = latitude;
     }
 
-
     private static Gson gson = new Gson();
 
-    public static Record fromJson(String json){
+    public static Record fromJson(String json) {
         return gson.fromJson(json, Record.class);
     }
 
-    public String toJson(){
+    public String toJson() {
         return gson.toJson(this);
     }
 
-    public Boolean isValid(){
-        if(longitude > 130 || latitude > 40){
+    public Boolean isValid() {
+        if (longitude > 130 || latitude > 40) {
             return false;
         }
         return true;
     }
 
-    public static Boolean jsonValid(String json){
-        try{
+    public static Boolean jsonValid(String json) {
+        try {
             Record r = fromJson(json);
             Boolean valid = r.isValid();
-            if(valid){
+            if (valid) {
                 return true;
             } else {
                 System.out.println("INVALID " + json);
                 return false;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("ERROR   " + json);
             return false;
@@ -106,5 +105,3 @@ public class Record {
         this.latitude = latitude;
     }
 }
-
-

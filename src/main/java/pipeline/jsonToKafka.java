@@ -7,24 +7,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Properties;
 
-
 public class jsonToKafka {
     private static ServerSocket serverSocket;
     private static kafkaProducer producer;
 
+    public static void run(Properties props) {
 
-    public static void run(Properties props){
-
-        Runtime.getRuntime().addShutdownHook(new Thread(){
-           public void run(){
-               jsonToKafka.cleanup();
-           }
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                jsonToKafka.cleanup();
+            }
         });
 
-        producer = new kafkaProducer(
-                props.getProperty("kafka-server"), props.getProperty("kafka-topic"));
+        producer = new kafkaProducer(props.getProperty("kafka-server"), props.getProperty("kafka-topic"));
         producer.init();
-
 
         InputStreamReader isr;
         BufferedReader br;
@@ -34,37 +30,34 @@ public class jsonToKafka {
 
         try {
             serverSocket = new ServerSocket(jsonPort);
-            while(true){
-                try{
-                    clientSocket=serverSocket.accept();
-                    isr=new InputStreamReader(clientSocket.getInputStream());
-                    br=new BufferedReader(isr);
+            while (true) {
+                try {
+                    clientSocket = serverSocket.accept();
+                    isr = new InputStreamReader(clientSocket.getInputStream());
+                    br = new BufferedReader(isr);
 
                     data = br.readLine();
-                    
-                    if(data != null){
+
+                    if (data != null) {
                         System.out.println(data);
                         producer.send(data);
                     }
-                   
+
                     clientSocket.close();
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public static void cleanup(){
-        try{
+    public static void cleanup() {
+        try {
             serverSocket.close();
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         producer.close();

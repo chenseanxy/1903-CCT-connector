@@ -9,27 +9,30 @@ public class kafkaProducer {
     private String server;
     private String topicName;
     private int msgID;
-    private KafkaProducer<String,String> producerClient;
+    private KafkaProducer<String, String> producerClient;
 
-    public kafkaProducer(String server, String topicName, int offset){
+    public kafkaProducer(String server, String topicName, int offset) {
         this.server = server;
         this.topicName = topicName;
         this.msgID = offset;
     }
 
-    public kafkaProducer(String server, String topicName){
+    public kafkaProducer(String server, String topicName) {
         this.server = server;
         this.topicName = topicName;
         this.msgID = 0;
     }
 
-    public void init(){
+    public void init() {
         Properties prop = new Properties();
         prop.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, server);
         prop.put(ProducerConfig.ACKS_CONFIG, "1");
-        prop.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringSerializer.class);
-        prop.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringSerializer.class);
-        prop.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor");
+        prop.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                org.apache.kafka.common.serialization.StringSerializer.class);
+        prop.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                org.apache.kafka.common.serialization.StringSerializer.class);
+        prop.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG,
+                "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor");
 
         producerClient = new KafkaProducer<String, String>(prop);
 
@@ -37,18 +40,18 @@ public class kafkaProducer {
         kTopic.makeTopic();
     }
 
-    public void close(){
-        if(producerClient != null){
+    public void close() {
+        if (producerClient != null) {
             producerClient.close();
         }
     }
 
-    public void send(String record){
-        ProducerRecord<String, String> producerRecord =
-                new ProducerRecord<String, String>(topicName, Integer.toString(msgID), record);
+    public void send(String record) {
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<String, String>(topicName,
+                Integer.toString(msgID), record);
         Callback sendComplete = new Callback() {
             public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-                if(e != null){
+                if (e != null) {
                     e.printStackTrace();
                 }
                 System.out.println("Offset: " + recordMetadata.offset());
@@ -58,7 +61,3 @@ public class kafkaProducer {
         this.msgID++;
     }
 }
-
-
-
-

@@ -20,7 +20,7 @@ public class kafkaStream {
     private Predicate<String, String> predicate;
     private KafkaStreams streams;
 
-    public void init(){
+    public void init() {
         // Stream Pipeline
         StreamsBuilder builder = new StreamsBuilder();
         sourceStream = builder.stream(topic);
@@ -43,15 +43,16 @@ public class kafkaStream {
         streams.cleanUp();
     }
 
-    public void run(){
+    public void run() {
         streams.start();
     }
 
-    public void stop(){
+    public void stop() {
         streams.close();
     }
 
-    public kafkaStream(String server, String topic, String filteredTopic, String appID, String clientID, Predicate<String, String> predicate) {
+    public kafkaStream(String server, String topic, String filteredTopic, String appID, String clientID,
+            Predicate<String, String> predicate) {
         this.server = server;
         this.topic = topic;
         this.filteredTopic = filteredTopic;

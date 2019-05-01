@@ -16,21 +16,21 @@ public class kafkaTopic {
         this.topic = topic;
     }
 
-    public void makeTopic(){
+    public void makeTopic() {
         Properties prop = new Properties();
         prop.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, server);
 
         AdminClient admin = AdminClient.create(prop);
         ListTopicsResult topicsList = admin.listTopics();
         Set<String> names;
-        try{
-             names = topicsList.names().get();
-        } catch (Exception e){
+        try {
+            names = topicsList.names().get();
+        } catch (Exception e) {
             System.out.println("Failed to get topics list");
             return;
         }
-        if(!names.contains(topic)){
-            System.out.println("Creating topic "+topic);
+        if (!names.contains(topic)) {
+            System.out.println("Creating topic " + topic);
             List<NewTopic> newTopics = new ArrayList<>();
             Map<String, String> configs = new HashMap<>();
             int partitions = 5;
