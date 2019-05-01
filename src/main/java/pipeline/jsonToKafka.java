@@ -41,10 +41,12 @@ public class jsonToKafka {
                     br=new BufferedReader(isr);
 
                     data = br.readLine();
-                    System.out.println(data);
-
-                    producer.send(data);
                     
+                    if(data != null){
+                        System.out.println(data);
+                        producer.send(data);
+                    }
+                   
                     clientSocket.close();
                 }
                 catch (Exception e){
