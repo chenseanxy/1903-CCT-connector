@@ -39,8 +39,11 @@ public class kafkaConsumer {
     }
 
     public ConsumerRecords<String, String> poll() {
+        return consumerClient.poll(Duration.ofSeconds(100));
+    }
 
-        return consumerClient.poll(Duration.ofSeconds(1000));
+    public void close(){
+        consumerClient.close();
     }
 
 }

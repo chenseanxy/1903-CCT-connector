@@ -23,7 +23,8 @@ public class main {
         options.addOption("kt", "kafka-topic", true, "Specify kafka topic to use");
         options.addOption("ktf", "kafka-topic-filtered", true, "Specify the filtered topic name");
         options.addOption("kaid", "kafka-appid", true, "AppID for Kafka Stream");
-        options.addOption("kcid", "kafka-clientid", true, "clientID for Kafka Stream and Consumer");
+        options.addOption("kcid", "kafka-clientid", true, "clientID for Kafka Stream");
+        options.addOption("kgid", "kafka-groupid", true, "GroupID for Kafka Consumer");
 
         // redis
         // hadoop
@@ -72,7 +73,8 @@ public class main {
                 return;
             }
         }
-        // kafka-json
+
+        // kafka-filter
         else if (mode.equals("kafka-filter")) {
             if (cmd.hasOption("ks") && cmd.hasOption("kt") && cmd.hasOption("ktf") && cmd.hasOption("kaid")
                     && cmd.hasOption("kcid")) {
@@ -84,11 +86,20 @@ public class main {
                 props.put("kafka-clientid", cmd.getOptionValue("kcid"));
 
                 System.out.println(props.toString());
-                ;
+
                 kafkaFilter.run(props);
             } else {
                 System.out.println("Arguments not complete:");
                 System.out.println(cmd.toString());
+            }
+        }
+
+        // kafka-redis
+        else if (mode.equals("kafka-redis")){
+            if(cmd.hasOption("ks") && cmd.hasOption("kgid") && cmd.hasOption("ktf")){
+                props.put("kafka-topic", cmd.getOptionValue("ktf")); //Consume from *filtered* topic
+                props.put("kafka-server", cmd.getOptionValue("ks"));
+                props.put("kafka-groupid", cmd.getOptionValue("kgid"));
             }
         }
 
