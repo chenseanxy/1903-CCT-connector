@@ -40,23 +40,6 @@ public class Record {
         return true;
     }
 
-    public static Boolean jsonValid(String json) {
-        try {
-            Record r = fromJson(json);
-            Boolean valid = r.isValid();
-            if (valid) {
-                return true;
-            } else {
-                System.out.println("INVALID " + json);
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("ERROR   " + json);
-            return false;
-        }
-    }
-
     public String getEid() {
         return eid;
     }

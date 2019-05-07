@@ -18,7 +18,7 @@ public class kafkaFilter {
                 props.getProperty("kafka-topic-filtered"),
                 "geofilter-stream-" + props.getProperty("kafka-appid"),
                 "geofilter-stream-client-" + props.getProperty("kafka-clientid"),
-                (k, v) -> Record.jsonValid(v)
+                (k, v) -> jsonValid(v)
         );
 
         System.out.println("Initializing stream");
@@ -29,5 +29,22 @@ public class kafkaFilter {
 
     public static void cleanup() {
         stream.stop();
+    }
+
+    public static Boolean jsonValid(String json) {
+        try {
+            Record r = Record.fromJson(json);
+            Boolean valid = r.isValid();
+            if (valid) {
+                return true;
+            } else {
+                System.out.println("[INVALID]" + json);
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("[ERROR]" + json);
+            return false;
+        }
     }
 }
