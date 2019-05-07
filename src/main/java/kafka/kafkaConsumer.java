@@ -32,7 +32,7 @@ public class kafkaConsumer {
         prop.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 org.apache.kafka.common.serialization.StringDeserializer.class);
         prop.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG,
-                io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor.class);
+                "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor");
 
         consumerClient = new KafkaConsumer<String, String>(prop);
         consumerClient.subscribe(Arrays.asList(topicName));
