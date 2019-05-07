@@ -35,6 +35,7 @@ public class kafkaToRedis {
         publisher.init();
 
         while(true){
+            System.out.println("[KFK][C]Started Consuming");
             records = consumer.poll();
             for(ConsumerRecord<String, String> record : records){
                 System.out.println("[KFK][C]Received: "+record.value());

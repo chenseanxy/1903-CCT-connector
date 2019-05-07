@@ -113,6 +113,8 @@ public class main {
                 props.put("redis-key", cmd.getOptionValue("rk"));
                 props.put("redis-channel", cmd.getOptionValue("rc"));
 
+                System.out.println("Running kafka-redis");
+                System.out.println(props.toString());
                 kafkaToRedis.run(props);
             }
         }
@@ -125,6 +127,8 @@ public class main {
                 props.put("redis-key", cmd.getOptionValue("rk"));
                 props.put("redis-channel", cmd.getOptionValue("rc"));
 
+                System.out.println("Running redis-hbase");
+                System.out.println(props.toString());
                 redisToHbase.run(props);
             }
         }
