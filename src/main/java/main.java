@@ -100,6 +100,8 @@ public class main {
                 props.put("kafka-topic", cmd.getOptionValue("ktf")); //Consume from *filtered* topic
                 props.put("kafka-server", cmd.getOptionValue("ks"));
                 props.put("kafka-groupid", cmd.getOptionValue("kgid"));
+
+                kafkaToRedis.run(props);
             }
         }
 
