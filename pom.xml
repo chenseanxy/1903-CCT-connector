@@ -41,6 +41,14 @@
             <version>5.2.0</version>
         </dependency>
 
+        <!-- Redis -->
+        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>3.1.0-m1</version>
+        </dependency>
+
         <!-- Record -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -62,6 +70,8 @@
             <version>1.7.26</version>
             <scope>test</scope>
         </dependency>
+
+
 
     </dependencies>
 

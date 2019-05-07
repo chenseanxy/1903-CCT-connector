@@ -27,6 +27,11 @@ public class main {
         options.addOption("kgid", "kafka-groupid", true, "GroupID for Kafka Consumer");
 
         // redis
+        options.addOption("rs","redis-server", true, "Specify redis server");
+        options.addOption("rp", "redis-port", true, "Port to connect to redis, int only");
+        options.addOption("rk", "redis-key", true, "Secret for redis connection");
+
+
         // hadoop
 
         // Options Parsing phase
@@ -96,10 +101,15 @@ public class main {
 
         // kafka-redis
         else if (mode.equals("kafka-redis")){
-            if(cmd.hasOption("ks") && cmd.hasOption("kgid") && cmd.hasOption("ktf")){
+            if(cmd.hasOption("ks") && cmd.hasOption("kgid") && cmd.hasOption("ktf")
+                    && cmd.hasOption("rs") && cmd.hasOption("rp") && cmd.hasOption("rk")){
+
                 props.put("kafka-topic", cmd.getOptionValue("ktf")); //Consume from *filtered* topic
                 props.put("kafka-server", cmd.getOptionValue("ks"));
                 props.put("kafka-groupid", cmd.getOptionValue("kgid"));
+                props.put("redis-server", cmd.getOptionValue("rs"));
+                props.put("redis-port", cmd.getOptionValue("rp"));
+                props.put("redis-key", cmd.getOptionValue("rk"));
 
                 kafkaToRedis.run(props);
             }
