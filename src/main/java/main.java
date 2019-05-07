@@ -30,7 +30,7 @@ public class main {
         options.addOption("rs","redis-server", true, "Specify redis server");
         options.addOption("rp", "redis-port", true, "Port to connect to redis, int only");
         options.addOption("rk", "redis-key", true, "Secret for redis connection");
-
+        options.addOption("rc","redis-channel", true, "Redis channel for publisher and subscriber");
 
         // hadoop
 
@@ -102,7 +102,8 @@ public class main {
         // kafka-redis
         else if (mode.equals("kafka-redis")){
             if(cmd.hasOption("ks") && cmd.hasOption("kgid") && cmd.hasOption("ktf")
-                    && cmd.hasOption("rs") && cmd.hasOption("rp") && cmd.hasOption("rk")){
+                    && cmd.hasOption("rs") && cmd.hasOption("rp")
+                    && cmd.hasOption("rk") && cmd.hasOption("rc")){
 
                 props.put("kafka-topic", cmd.getOptionValue("ktf")); //Consume from *filtered* topic
                 props.put("kafka-server", cmd.getOptionValue("ks"));
@@ -110,8 +111,21 @@ public class main {
                 props.put("redis-server", cmd.getOptionValue("rs"));
                 props.put("redis-port", cmd.getOptionValue("rp"));
                 props.put("redis-key", cmd.getOptionValue("rk"));
+                props.put("redis-channel", cmd.getOptionValue("rc"));
 
                 kafkaToRedis.run(props);
+            }
+        }
+
+        // redis-hbase
+        else if (mode.equals("redis-hbase")){
+            if(cmd.hasOption("rs") && cmd.hasOption("rp") && cmd.hasOption("rk") && cmd.hasOption("rc")){
+                props.put("redis-server", cmd.getOptionValue("rs"));
+                props.put("redis-port", cmd.getOptionValue("rp"));
+                props.put("redis-key", cmd.getOptionValue("rk"));
+                props.put("redis-channel", cmd.getOptionValue("rc"));
+
+                redisToHbase.run(props);
             }
         }
 

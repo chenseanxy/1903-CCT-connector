@@ -3,13 +3,13 @@ package pipeline;
 import kafka.kafkaConsumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
-import redis.redisClient;
+import redis.redisPublisher;
 
 import java.util.Properties;
 
 public class kafkaToRedis {
     private static kafkaConsumer consumer;
-    private static redisClient redis;
+    private static redisPublisher publisher;
 
     public static void run(Properties props){
 
@@ -26,18 +26,19 @@ public class kafkaToRedis {
 
         ConsumerRecords<String, String> records;
 
-        redis = new redisClient(
-                props.getProperty("redis-server"),
-                Integer.parseInt(props.getProperty("redis-port")),
-                props.getProperty("redis-key")
+        publisher = new redisPublisher(
+                props.getProperty("publisher-server"),
+                Integer.parseInt(props.getProperty("publisher-port")),
+                props.getProperty("publisher-key"),
+                props.getProperty("publisher-channel")
         );
-        redis.init();
+        publisher.init();
 
         while(true){
             records = consumer.poll();
             for(ConsumerRecord<String, String> record : records){
-                System.out.println(record.value());
-                redis.send(record.value());
+                System.out.println("[KFK][C]Received: "+record.value());
+                publisher.send(record.value());
             }
         }
     }
