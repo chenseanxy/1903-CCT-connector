@@ -27,10 +27,10 @@ public class kafkaToRedis {
         ConsumerRecords<String, String> records;
 
         publisher = new redisPublisher(
-                props.getProperty("publisher-server"),
-                Integer.parseInt(props.getProperty("publisher-port")),
-                props.getProperty("publisher-key"),
-                props.getProperty("publisher-channel")
+                props.getProperty("redis-server"),
+                Integer.parseInt(props.getProperty("redis-port")),
+                props.getProperty("redis-key"),
+                props.getProperty("redis-channel")
         );
         publisher.init();
 
