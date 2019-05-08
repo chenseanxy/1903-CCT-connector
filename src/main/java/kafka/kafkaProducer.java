@@ -42,6 +42,7 @@ public class kafkaProducer {
 
     public void close() {
         if (producerClient != null) {
+            producerClient.flush();
             producerClient.close();
         }
     }
@@ -54,7 +55,7 @@ public class kafkaProducer {
                 if (e != null) {
                     e.printStackTrace();
                 }
-                System.out.println("Offset: " + recordMetadata.offset());
+                System.out.println("[KFK][P]Sent: " + recordMetadata.offset());
             }
         };
         producerClient.send(producerRecord, sendComplete);

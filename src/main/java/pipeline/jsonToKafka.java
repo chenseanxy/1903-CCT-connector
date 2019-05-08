@@ -39,9 +39,8 @@ public class jsonToKafka {
                     data = br.readLine();
 
                     if (data != null) {
-                        System.out.println(data);
-                        String finalData = data;
-                        new Thread(() -> producer.send(finalData)).start();
+                        System.out.println("[JSON]Received: "+ data);
+                        producer.send(data);
                     }
 
                     clientSocket.close();

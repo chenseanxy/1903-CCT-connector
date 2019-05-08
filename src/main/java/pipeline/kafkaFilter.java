@@ -16,8 +16,7 @@ public class kafkaFilter {
                 props.getProperty("kafka-server"),
                 props.getProperty("kafka-topic"),
                 props.getProperty("kafka-topic-filtered"),
-                "geofilter-stream-" + props.getProperty("kafka-appid"),
-                "geofilter-stream-client-" + props.getProperty("kafka-clientid"),
+                "ccproject-kafkafilter-stream",
                 (k, v) -> jsonValid(v)
         );
 

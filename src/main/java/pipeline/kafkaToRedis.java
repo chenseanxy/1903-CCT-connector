@@ -19,7 +19,7 @@ public class kafkaToRedis {
 
         consumer = new kafkaConsumer(
                 props.getProperty("kafka-server"),
-                props.getProperty("kafka-groupid"),
+                "ccproject-kafka-redis-consumer",
                 props.getProperty("kafka-topic")
         );
         consumer.init();

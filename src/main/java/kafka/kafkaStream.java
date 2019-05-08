@@ -14,7 +14,6 @@ public class kafkaStream {
     private String topic;
     private String filteredTopic;
     private String appID;
-    private String clientID;
     private KStream<String, String> sourceStream;
     private KStream<String, String> destStream;
     private Predicate<String, String> predicate;
@@ -31,7 +30,6 @@ public class kafkaStream {
         Properties props = new Properties();
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, server);
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, appID);
-        props.put(StreamsConfig.CLIENT_ID_CONFIG, clientID);
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
@@ -51,13 +49,12 @@ public class kafkaStream {
         streams.close();
     }
 
-    public kafkaStream(String server, String topic, String filteredTopic, String appID, String clientID,
+    public kafkaStream(String server, String topic, String filteredTopic, String appID,
             Predicate<String, String> predicate) {
         this.server = server;
         this.topic = topic;
         this.filteredTopic = filteredTopic;
         this.appID = appID;
-        this.clientID = clientID;
         this.predicate = predicate;
     }
 }

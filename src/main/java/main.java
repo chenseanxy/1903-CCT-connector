@@ -22,9 +22,6 @@ public class main {
         options.addOption("ks", "kafka-server", true, "Specify kafka server");
         options.addOption("kt", "kafka-topic", true, "Specify kafka topic to use");
         options.addOption("ktf", "kafka-topic-filtered", true, "Specify the filtered topic name");
-        options.addOption("kaid", "kafka-appid", true, "AppID for Kafka Stream");
-        options.addOption("kcid", "kafka-clientid", true, "clientID for Kafka Stream");
-        options.addOption("kgid", "kafka-groupid", true, "GroupID for Kafka Consumer");
 
         // redis
         options.addOption("rs","redis-server", true, "Specify redis server");
@@ -81,14 +78,11 @@ public class main {
 
         // kafka-filter
         else if (mode.equals("kafka-filter")) {
-            if (cmd.hasOption("ks") && cmd.hasOption("kt") && cmd.hasOption("ktf") && cmd.hasOption("kaid")
-                    && cmd.hasOption("kcid")) {
+            if (cmd.hasOption("ks") && cmd.hasOption("kt") && cmd.hasOption("ktf")) {
 
                 props.put("kafka-server", cmd.getOptionValue("ks"));
                 props.put("kafka-topic", cmd.getOptionValue("kt"));
                 props.put("kafka-topic-filtered", cmd.getOptionValue("ktf"));
-                props.put("kafka-appid", cmd.getOptionValue("kaid"));
-                props.put("kafka-clientid", cmd.getOptionValue("kcid"));
 
                 System.out.println(props.toString());
 
@@ -101,13 +95,12 @@ public class main {
 
         // kafka-redis
         else if (mode.equals("kafka-redis")){
-            if(cmd.hasOption("ks") && cmd.hasOption("kgid") && cmd.hasOption("ktf")
+            if(cmd.hasOption("ks") && cmd.hasOption("ktf")
                     && cmd.hasOption("rs") && cmd.hasOption("rp")
                     && cmd.hasOption("rk") && cmd.hasOption("rc")){
 
                 props.put("kafka-topic", cmd.getOptionValue("ktf")); //Consume from *filtered* topic
                 props.put("kafka-server", cmd.getOptionValue("ks"));
-                props.put("kafka-groupid", cmd.getOptionValue("kgid"));
                 props.put("redis-server", cmd.getOptionValue("rs"));
                 props.put("redis-port", cmd.getOptionValue("rp"));
                 props.put("redis-key", cmd.getOptionValue("rk"));
@@ -116,6 +109,9 @@ public class main {
                 System.out.println("Running kafka-redis");
                 System.out.println(props.toString());
                 kafkaToRedis.run(props);
+            } else {
+                System.out.println("Arguments not complete:");
+                System.out.println(cmd.toString());
             }
         }
 
@@ -130,6 +126,9 @@ public class main {
                 System.out.println("Running redis-hbase");
                 System.out.println(props.toString());
                 redisToHbase.run(props);
+            } else {
+                System.out.println("Arguments not complete:");
+                System.out.println(cmd.toString());
             }
         }
 
