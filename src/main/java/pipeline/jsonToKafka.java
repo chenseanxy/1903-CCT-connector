@@ -40,7 +40,8 @@ public class jsonToKafka {
 
                     if (data != null) {
                         System.out.println(data);
-                        producer.send(data);
+                        String finalData = data;
+                        new Thread(() -> producer.send(finalData)).start();
                     }
 
                     clientSocket.close();
