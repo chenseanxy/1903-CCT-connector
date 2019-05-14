@@ -55,7 +55,8 @@ public class kafkaProducer {
                 if (e != null) {
                     e.printStackTrace();
                 }
-                System.out.println("[KFK][P]Sent: " + recordMetadata.offset());
+                System.out.println("[KFK][P]Sent: Partition:" + recordMetadata.partition()
+                        +" Offset: " + recordMetadata.offset());
             }
         };
         producerClient.send(producerRecord, sendComplete);
