@@ -35,7 +35,7 @@ public class kafkaStream {
 
         streams = new KafkaStreams(builder.build(), props);
 
-        kafkaTopic kTopicFiltered = new kafkaTopic(server, topic);
+        kafkaTopic kTopicFiltered = new kafkaTopic(server, filteredTopic);
         kTopicFiltered.makeTopic();
 
         streams.cleanUp();

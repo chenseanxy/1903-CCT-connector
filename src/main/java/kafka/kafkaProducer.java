@@ -36,8 +36,8 @@ public class kafkaProducer {
 
         producerClient = new KafkaProducer<String, String>(prop);
 
-//        kafkaTopic kTopic = new kafkaTopic(server, topicName);
-//        kTopic.makeTopic();
+        kafkaTopic kTopic = new kafkaTopic(server, topicName);
+        kTopic.makeTopic();
     }
 
     public void close() {
