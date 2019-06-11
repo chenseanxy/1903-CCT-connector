@@ -29,7 +29,11 @@ public class main {
         options.addOption("rk", "redis-key", true, "Secret for redis connection");
         options.addOption("rc","redis-channel", true, "Redis channel for publisher and subscriber");
 
-        // hadoop
+        // hbase
+        options.addOption("ht","hbase-table",true,"HBase table used for data storage");
+        options.addOption("hf","hbase-family",true,"HBase family used for table");
+        options.addOption("hs","hbase-server",true,"HBase Master for DB connection");
+
 
         // Options Parsing phase
         CommandLineParser parser = new DefaultParser();
@@ -117,11 +121,15 @@ public class main {
 
         // redis-hbase
         else if (mode.equals("redis-hbase")){
-            if(cmd.hasOption("rs") && cmd.hasOption("rp") && cmd.hasOption("rk") && cmd.hasOption("rc")){
+            if(cmd.hasOption("rs") && cmd.hasOption("rp") && cmd.hasOption("rk") && cmd.hasOption("rc")
+                    && cmd.hasOption("ht") && cmd.hasOption("hf") && cmd.hasOption("hs")){
                 props.put("redis-server", cmd.getOptionValue("rs"));
                 props.put("redis-port", cmd.getOptionValue("rp"));
                 props.put("redis-key", cmd.getOptionValue("rk"));
                 props.put("redis-channel", cmd.getOptionValue("rc"));
+                props.put("hbase-server", cmd.getOptionValue("hs"));
+                props.put("hbase-family", cmd.getOptionValue("hf"));
+                props.put("hbase-table", cmd.getOptionValue("ht"));
 
                 System.out.println("Running redis-hbase");
                 System.out.println(props.toString());
@@ -131,6 +139,7 @@ public class main {
                 System.out.println(cmd.toString());
             }
         }
+
 
         // no mode match
         else {

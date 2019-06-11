@@ -40,6 +40,10 @@ public class Record {
         return true;
     }
 
+    public String getRowKey(){
+        return placeId + "##" + time + "##" + eid;
+    }
+
     public String getEid() {
         return eid;
     }

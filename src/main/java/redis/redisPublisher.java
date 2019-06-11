@@ -20,7 +20,6 @@ public class redisPublisher {
         jedis = new Jedis(server, port);
         String authResult = jedis.auth(key);
         if(!authResult.equals("OK")){
-            // TODO: AUTH ERR Handling
             System.out.println("[REDIS]Auth Error: "+authResult);
         }
     }
