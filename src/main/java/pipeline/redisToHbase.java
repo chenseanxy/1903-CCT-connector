@@ -30,7 +30,7 @@ public class redisToHbase {
         hbConnection = new hbaseConnection(
                 props.getProperty("hbase-server")
         );
-        //hbConnection.init();
+        hbConnection.init();
 
         hbInsert = new hbaseInsert(
                 props.getProperty("hbase-table"),
@@ -56,7 +56,7 @@ public class redisToHbase {
         Record r = Record.fromJson(message);
         List<Record> records = new ArrayList<>();
         records.add(r);
-        //hbInsert.insertRecordToHbase(records);
+        hbInsert.insertRecordToHbase(records);
     }
 
     public static void cleanup(){
